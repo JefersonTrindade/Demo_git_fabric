@@ -1,0 +1,87 @@
+table calendario
+	lineageTag: 11c3c3e0-3461-444c-be86-e62efe64fae2
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: e5398ac2-f37c-42c0-bae6-e6eb0443b9fb
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bfb2f45-9535-45eb-a3a4-a0034c6a7457
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = User
+
+	column MesAno
+		dataType: string
+		lineageTag: a96c1f6c-2cab-428f-8d5e-ce0aa21831df
+		summarizeBy: none
+		sourceColumn: MesAno
+		sortByColumn: MesInicio
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesInicio
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 488942c2-2116-4a95-93b9-556ecbd99f86
+		summarizeBy: none
+		sourceColumn: MesInicio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition calendario = m
+		mode: import
+		queryGroup: Dimensões
+		source = ```
+				let
+				    dataInicial = data_inicial, 
+				    dataFinal = data_final, 
+				    
+				    datas = List.Dates(
+				        dataInicial, 
+				        Duration.Days(dataFinal-dataInicial) + 1, 
+				        #duration(1, 0, 0, 0)
+				    ),
+				
+				    calendario = #table(
+				        type table[
+				            Data = date,
+				            Ano = Int64.Type,
+				            MesAno = text,
+				            MesInicio = date
+				        ],
+				        List.Transform(
+				            datas,
+				            each {
+				                _,
+				                Date.Year(_),
+				                Date.ToText(_, [Format="MMM/yy", Culture="pt-BR"]),
+				                Date.StartOfMonth(_)
+				            }
+				        )
+				    )
+				
+				in
+				    calendario
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
