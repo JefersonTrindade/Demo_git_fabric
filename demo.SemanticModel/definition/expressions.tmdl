@@ -4,7 +4,7 @@ expression base_transacoes = "C:\Users\Jeferson\Downloads\youtube-20241111-git-g
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Text
 
 expression data_inicial = #date(2024, 11, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
 	lineageTag: 18d3ce1e-8d30-4e2f-8f4b-6665b5dcc155
