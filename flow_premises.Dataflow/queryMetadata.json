@@ -4,6 +4,49 @@
   "name": "Dataflow 1",
   "queryGroups": [],
   "documentLocale": "pt-BR",
-  "queriesMetadata": {},
-  "connections": []
+  "gatewayObjectId": "25b1d7d7-f4ed-46b9-8bb8-e24336b00349",
+  "queriesMetadata": {
+    "data_inicial": {
+      "queryId": "d61317e9-e3de-4c00-8d31-c506349375fc",
+      "queryName": "data_inicial",
+      "loadEnabled": false
+    },
+    "base_transacoes": {
+      "queryId": "dd0eacd5-5199-400c-93f7-f0329243d775",
+      "queryName": "base_transacoes",
+      "loadEnabled": false
+    },
+    "data_final": {
+      "queryId": "cefbfc25-04b3-475c-ba05-9f115d160c07",
+      "queryName": "data_final",
+      "loadEnabled": false
+    },
+    "calendario": {
+      "queryId": "d65d7a00-4dfd-4501-8192-7287c83b2326",
+      "queryName": "calendario"
+    },
+    "transacoes": {
+      "queryId": "ad69975a-ead9-4a03-9a3e-e0f5410c9a76",
+      "queryName": "transacoes",
+      "loadEnabled": false
+    },
+    "transacoes_DataDestination": {
+      "queryId": "d261083e-3954-4d29-a694-6c08ba324454",
+      "queryName": "transacoes_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "C:\\Users\\Jeferson\\Downloads\\youtube-20241111-git-github-main\\transacoes.xlsx",
+      "kind": "File",
+      "connectionId": "{\"ClusterId\":\"25b1d7d7-f4ed-46b9-8bb8-e24336b00349\",\"DatasourceId\":\"bbf5d376-648f-4856-9c09-8a84e49e8a75\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"25b1d7d7-f4ed-46b9-8bb8-e24336b00349\",\"DatasourceId\":\"7114dd2e-387a-469d-b88f-eee498afb1e1\"}"
+    }
+  ]
 }
