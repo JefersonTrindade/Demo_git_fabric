@@ -23,7 +23,8 @@
     },
     "calendario": {
       "queryId": "d65d7a00-4dfd-4501-8192-7287c83b2326",
-      "queryName": "calendario"
+      "queryName": "calendario",
+      "loadEnabled": false
     },
     "transacoes": {
       "queryId": "ad69975a-ead9-4a03-9a3e-e0f5410c9a76",
@@ -33,6 +34,12 @@
     "transacoes_DataDestination": {
       "queryId": "d261083e-3954-4d29-a694-6c08ba324454",
       "queryName": "transacoes_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "calendario_DataDestination": {
+      "queryId": "cc52c761-6274-4b25-baf8-75982a30c0fc",
+      "queryName": "calendario_DataDestination",
       "isHidden": true,
       "loadEnabled": false
     }
