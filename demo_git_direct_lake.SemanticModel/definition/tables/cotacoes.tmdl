@@ -1,0 +1,99 @@
+table cotacoes
+	lineageTag: 4821d2b8-72cc-41f7-ab24-cf6ea3936b37
+	sourceLineageTag: [dbo].[cotacoes]
+
+	measure 'Cotação do dia' = AVERAGE(cotacoes[Cotacao])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Medidas
+		lineageTag: ba24d414-492f-4884-a004-37fda179522c
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Moeda
+		dataType: string
+		sourceProviderType: varchar(8000)
+		displayFolder: Colunas
+		lineageTag: fc92e972-0891-492b-9d38-e9b5baa9cac2
+		sourceLineageTag: Moeda
+		summarizeBy: none
+		sourceColumn: Moeda
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataHoraCotacao
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		displayFolder: Colunas
+		lineageTag: d5518967-34e1-4a7b-9dfe-aa601958bc62
+		sourceLineageTag: DataHoraCotacao
+		summarizeBy: none
+		sourceColumn: DataHoraCotacao
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataCotacao
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		displayFolder: Colunas
+		lineageTag: 9acc49ea-b966-4180-b989-5c5de2fe0d82
+		sourceLineageTag: DataCotacao
+		summarizeBy: none
+		sourceColumn: DataCotacao
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cotacao
+		dataType: double
+		sourceProviderType: real
+		displayFolder: Colunas
+		lineageTag: bc4c7496-8f10-4f02-9052-ec3f21d5385a
+		sourceLineageTag: Cotacao
+		summarizeBy: average
+		sourceColumn: Cotacao
+
+		changedProperty = SummarizeBy
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TipoBoletim
+		dataType: string
+		sourceProviderType: varchar(8000)
+		displayFolder: Colunas
+		lineageTag: aca5a251-61f6-46b9-b1ed-b605ef630496
+		sourceLineageTag: TipoBoletim
+		summarizeBy: none
+		sourceColumn: TipoBoletim
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cotacoes = entity
+		mode: directLake
+		source
+			entityName: cotacoes
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
