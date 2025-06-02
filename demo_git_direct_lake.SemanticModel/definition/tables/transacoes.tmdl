@@ -1,0 +1,132 @@
+table transacoes
+	lineageTag: 2d534e31-279e-40a2-8e68-a2d04fe3a22b
+	sourceLineageTag: [dbo].[transacoes]
+
+	measure 'Valor total' = SUM(transacoes[Total])
+		formatString: #,0.00
+		displayFolder: Medidas
+		lineageTag: cb08939b-7566-416b-8690-a2254b5f9a84
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Total R$' =
+			
+			SUMX(
+			    moedas,
+			    SUMX(
+			        calendario,
+			        COALESCE([Cotação corrigida], 1) * [Valor Total]
+			    )
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Medidas
+		lineageTag: a2e2c1b5-43e0-47df-9ed4-8770fc2d322c
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Cotação corrigida' =
+			
+			
+			VAR __DataCtx = MAX(calendario[Data])
+			
+			VAR __UltimaDataComCotacao =
+			    CALCULATE(
+			        LASTNONBLANK(calendario[Data], [Cotação do dia]),
+			        calendario[Data] <= __DataCtx
+			    )
+			
+			RETURN
+			    CALCULATE(
+			        [Cotação do dia],
+			        calendario[Data] = __UltimaDataComCotacao
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Medidas
+		lineageTag: 3c5bf863-e677-4dd0-a4f2-5894e35fd1f2
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column ID
+		dataType: double
+		sourceProviderType: float
+		displayFolder: Colunas
+		lineageTag: 884b79aa-28a6-4efb-b5f6-16dcfd067d39
+		sourceLineageTag: ID
+		summarizeBy: count
+		sourceColumn: ID
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Data
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		displayFolder: Colunas
+		lineageTag: 1edbc107-1067-4cdd-8544-fa40f92df02e
+		sourceLineageTag: Data
+		summarizeBy: none
+		sourceColumn: Data
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total
+		dataType: double
+		sourceProviderType: float
+		displayFolder: Colunas
+		lineageTag: 7f069fda-2c5f-4d51-8f6b-2985f2a9a013
+		sourceLineageTag: Total
+		summarizeBy: sum
+		sourceColumn: Total
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Moeda
+		dataType: string
+		sourceProviderType: varchar(8000)
+		displayFolder: Colunas
+		lineageTag: ac32be7d-aa2e-4529-ba3d-72e0bd8e6858
+		sourceLineageTag: Moeda
+		summarizeBy: none
+		sourceColumn: Moeda
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition transacoes = entity
+		mode: directLake
+		source
+			entityName: transacoes
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
